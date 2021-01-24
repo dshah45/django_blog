@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} Home {% endblock title %}
+{% block homeactive %} active {% endblock homeactive %}
+{% block body %}
+
+
+    <div class="container my-5">
+        <div class="jumbotron">
+            <h1 class="display-4"><b>Welcome to TechBuzz!</b></h1>
+        <p class="lead">This is a simple Blog App</p>
+        <hr class="my-4">
+            <p><i>“Don’t focus on having a great blog. Focus on producing a blog that’s great for your readers.”</i></p>
+        <a class="btn btn-primary btn-lg" href="/blog" role="button">Go to Blogs</a>
+        </div>
+    </div>
+    <div class="container">
+    <h2>Popular BlogPosts:</h2>
+     {% for post in allPosts %}
+         {% if post.views > 50 %}
+            <div class="row no-gutters border rounded overflow-hidden flex-md-row my-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <strong class="d-inline-block mb-2 text-primary">Article By {{ post.author }} ({{post.views}} views)</strong>
+                    <h3 class="mb-0"><a class="text-dark" href="/blog/{{ post.slug }}">{{ post.title }}</a></h3>
+                    <div class="mb-1 text-muted">{{ post.datetime }}</div>
+                    <p class="preview">{{ post.content|safe | truncatechars:500 }}</p>
+                    <div class="my-2">
+                        <a href="/blog/{{ post.slug }}" role="button" class="btn btn-primary">Continue reading</a>
+                    </div>
+                </div>
+            </div>
+         {% endif %}
+        {% endfor %}
+    </div>
+
+</div>
+
+    <!-- ======= Footer ======= -->
+<footer id="footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-3 col-md-6 footer-info">
+                    <h3>TechBuzz</h3>
+                    <p>
+                        A108 Adam Street <br>
+                        NY 535022, USA<br><br>
+                        <strong>Phone:</strong> +1 5589 55488 55<br>
+                        <strong>Email:</strong> info@example.com<br>
+                    </p>
+                </div>
+
+                <div class="col-lg-2 col-md-6 footer-links">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><i class="bx bx-chevron-right"></i> <a href="/">Home</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="/about">About us</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="/contact">Contact us</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="/blog">Blogs</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6 footer-links">
+                    <h4>Latest posts</h4>
+                    {% for post in allatest %}
+                        <ul>
+                            <li><h4 class="mb-0"><a class="text-white" href="/blog/{{ post.slug }}">{{ post.title|truncatechars:40 }}</a></h4></li>
+                        </ul>
+                    {% endfor %}
+                </div>
+
+                <div class="col-lg-4 col-md-6 footer-newsletter">
+                    <h4>Our Newsletter</h4>
+                    <p>Subscribe to get latest updates!!</p>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="email" name="email"><input type="submit" value="Subscribe">
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="copyright">
+            &copy; Copyright <strong><span>TechBuzz</span></strong>. All Rights Reserved
+        </div>
+    </div>
+</footer>
+
+<!-- End Footer -->
+{% endblock body %}
